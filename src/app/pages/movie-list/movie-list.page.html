@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+        <ion-button>
+          <ion-icon name="film-outline"></ion-icon>
+        </ion-button>
+    </ion-buttons>
+    <ion-title>movieList</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-searchbar [(ngModel)]="term" (ionChange)="searchChanged($event)" placeholder="Búsqueda"></ion-searchbar>
+
+
+  <ion-item>
+    <ion-label>Seleccione el tipo de contenido</ion-label>
+    <ion-select [(ngModel)]="type" (ionChange)="searchChanged($event)">
+      <ion-select-option value="">Todos </ion-select-option>
+      <ion-select-option value="series">Series </ion-select-option>
+      <ion-select-option value="movie" >Películas </ion-select-option>
+      <ion-select-option value="episode" >Episodios </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list>
+    <ion-item button  *ngFor="let media of(result |async)" [routerLink] = "['/', 'movie', media.imdbID]">
+      <ion-avatar slot="start">
+        <img src="{{media.Poster}}" alt="{{media.Title}}" *ngIf="media.Poster != 'N/A'">
+      </ion-avatar>
+      <ion-label text-wrap>
+        <h3>{{media.Title}}</h3>
+        {{media.Year}}
+      </ion-label>
+      <ion-icon slot = "end" *ngIf="media.Type === 'movie'" name ="videocam"></ion-icon>
+      <ion-icon slot = "end" *ngIf="media.Type === 'series'" name ="tv"></ion-icon>
+      <ion-icon slot = "end" *ngIf="media.Type === 'episode'" name ="tablet-portrait"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+
+</ion-content>

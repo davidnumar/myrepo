@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{especs?.Title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="especs">
+    <ion-card-header>
+      <ion-card-title>{{especs.Title}}</ion-card-title>
+      <ion-card-subtitle>{{especs.Year}} {{especs.Language}} </ion-card-subtitle>
+      <ion-card-subtitle> ({{especs.Genre}}) </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <img src="{{especs.Poster}}" class="info-img"  *ngIf="especs.Poster != 'N/A'; else elseBlockPoster">
+      <ng-template #elseBlockPoster>
+        <ion-label text-wrap >(No existe portada para el contenido)</ion-label>
+      </ng-template>
+      <ion-card-subtitle> Argumento: </ion-card-subtitle>
+      <ion-label text-wrap *ngIf="especs.Poster != 'N/A'; else elseBlockPlot">{{especs.Plot}}</ion-label>
+      <ng-template #elseBlockPlot>
+        <ion-label text-wrap >No se encontró argumento sobre el contenido</ion-label>
+      </ng-template>
+      <ion-item lines="none">
+        <ion-icon name="thumbs-up-outline" slot="start" *ngIf="especs.imdbRating >= '5'; else lowRate"></ion-icon>
+        <ng-template #lowRate>
+          <ion-icon name="thumbs-down-outline" slot="start"></ion-icon>
+        </ng-template>
+        <ion-label text-wrap *ngIf="especs.imdbRating != 'N/A'; else elseBlockRate"> {{especs.imdbRating}}</ion-label>
+        <ng-template #elseBlockRate>
+          <ion-label text-wrap >No se encontró puntuación en imdb sobre el contenido</ion-label>
+        </ng-template>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="videocam-outline" slot="start"></ion-icon>
+        <ion-label text-wrap *ngIf="especs.Director != 'N/A'; else elseBlock"> {{especs.Director}}</ion-label>
+        <ng-template #elseBlock>
+          <ion-label text-wrap >No se dispone del nombre del director</ion-label>
+        </ng-template>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="people" slot="start"></ion-icon>
+        <ion-label text-wrap> {{especs.Actors}}</ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
